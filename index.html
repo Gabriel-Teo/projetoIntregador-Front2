@@ -7,7 +7,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>To-Do App</title>
 
-  <!-- ---------------- estilos compartilhados entre login e signup ---------------- -->
+  <!-- ---------------- estilos compartilhados entre login e signup ---------- -->
   <link rel="stylesheet" href="styles/acesso.css">
 
   <!-- ---------------------- lógica aplicada no login ----------------------- -->
@@ -29,21 +29,21 @@
       <h1>Acessar</h1>
       <label>
         Email:
-        <input id="inputEmail" type="text">
+        <input id="inputEmail" type="email" required autocomplete="off">
       </label>
       <label>
         Senha:
-        <input id="inputPassword" type="password">
+        <input id="inputPassword" type="password" required>
       </label>
 
-      <button type="submit">Acessar</button>
+      <button type="submit" id="btnSubmit">Acessar</button>
 
     </form>
     <div class="ingressar">
       <a href="signup.html">Não possui conta? Crie agora mesmo</a>
     </div>
   </div>
-
+  <script src="./scripts/app.js"></script>
 </body>
 
 </html>
