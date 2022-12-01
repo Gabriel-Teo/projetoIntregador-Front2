@@ -14,6 +14,7 @@ btnSubmit.addEventListener('click', function (event) {
     }
 
 })
+function validacaoLogin(){
 
 //Validação e-mail
 let inputEmail = document.getElementById('inputEmail');
@@ -34,6 +35,7 @@ inputEmail.addEventListener('keyup', function () {
 //Validação password
 let inputPassword = document.getElementById('inputPassword');
 inputPassword.addEventListener('keyup', function () {
+    
     if (inputPassword.value.length < 8) {
         inputPassword.classList.remove('acessoPermitido');
         inputPassword.classList.add('acessoNegado');
@@ -43,4 +45,9 @@ inputPassword.addEventListener('keyup', function () {
         inputPassword.classList.add('acessoPermitido');
         inputPassword.validity = true
     }
-})
+})}
+
+// Normalizando Email e Password:
+
+inputEmail = normalizar(inputEmail.value)
+inputPassword = normalizar(inputPassword.value)
