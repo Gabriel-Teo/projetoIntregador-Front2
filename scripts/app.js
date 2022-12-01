@@ -44,7 +44,12 @@ function loginSystem(objeto){
     fetch("https://ctd-fe2-todo-v2.herokuapp.com/v1/users/login", requestInit)
     .then(
         resposta => {
-            return resposta.json()
+            if(resposta.status == 200 || resposta.status == 201){
+                return resposta.json()
+            }else{
+                throw resposta;
+            }
+            
         }
     )
     .then(
@@ -68,6 +73,9 @@ function loginSucesso(resposta){
 
 }
 function insucesso(resposta){
+    if(resposta.status==400 || resposta.status==404){
+        alert("Login e/ou senha incorreto")
+    }
 console.log(resposta)
 }
 
