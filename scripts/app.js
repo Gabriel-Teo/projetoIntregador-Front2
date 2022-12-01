@@ -3,18 +3,74 @@ document.addEventListener('invalid', function (event) {
     event.preventDefault();
 }, true)
 
+
+
 //Validação envia (Fazer)
 let btnSubmit = document.getElementById('btnSubmit')
+
+
 
 btnSubmit.addEventListener('click', function (event) {
     event.preventDefault();
     if (inputEmail.validity.valid == true && inputPassword.validity.valid == true){
         console.log('foi')
         btnSubmit.innerText = 'FOI'
+
+        // Normalizando as entradas:
+
+    let emailNormalizado = inputEmail.value.trim()
+    let senhaNormalizada = inputPassword.value.trim()
+    
+    let objetoLg = {
+        email: emailNormalizado,
+        password: senhaNormalizada
+    }
+    let objetoJs = JSON.stringify(objetoLg)
+    
+    loginSystem(objetoJs)
     }
 
 })
-function validacaoLogin(){
+
+// Função de ligação API
+
+function loginSystem(objeto){
+    let requestInit = {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"},
+        body: objeto
+    }
+    fetch("https://ctd-fe2-todo-v2.herokuapp.com/v1/users/login", requestInit)
+    .then(
+        resposta => {
+            return resposta.json()
+        }
+    )
+    .then(
+        resposta => {
+            loginSucesso(resposta)
+        }
+    
+    )
+    .catch(
+        erro =>{
+            insucesso(erro)
+        }
+    )
+
+}
+
+function loginSucesso(resposta){
+    sessionStorage.setItem("jwt", resposta.jwt)
+    window.location.href = "tarefas.html"
+    console.log(resposta)
+
+}
+function insucesso(resposta){
+console.log(resposta)
+}
+
 
 //Validação e-mail
 let inputEmail = document.getElementById('inputEmail');
@@ -45,9 +101,6 @@ inputPassword.addEventListener('keyup', function () {
         inputPassword.classList.add('acessoPermitido');
         inputPassword.validity = true
     }
-})}
+    console.log(inputPassword.validity)
+})
 
-// Normalizando Email e Password:
-
-inputEmail = normalizar(inputEmail.value)
-inputPassword = normalizar(inputPassword.value)
