@@ -8,7 +8,7 @@ let btnSubmit = document.getElementById('btnSubmit')
 
 btnSubmit.addEventListener('click', function (event) {
     event.preventDefault();
-    if (inputEmail.validity.valid == true && inputPassword.validity.valid == true){
+    if (inputEmail.validity.valid == true && inputPassword.validity.valid == true) {
         console.log('foi')
         btnSubmit.innerText = 'FOI'
     }

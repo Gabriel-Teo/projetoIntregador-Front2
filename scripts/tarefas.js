@@ -17,8 +17,31 @@ form.addEventListener('submit', function(event){
       <p class="nome">${inputTarefa.value}</p>
       <p class="timestamp">Criada em: ${date}</p>
     </div>`
+
     event.preventDefault();
+
     if (inputTarefa.value.length >= 5) {
         parent.innerHTML += tarefa;
     }
 })
+
+//mover entre listas
+let itemTarefa = document.querySelector('#tarefasPendentes')
+itemTarefa.addEventListener('click', function(event){
+    let btn = event.btn.closest('.not-done');
+    if (btn) {
+        console.log('foi')
+    }
+})
+
+// const listone = document.querySelector("#list");
+// const listwo = document.querySelector("#list2");
+// const li = listone.querySelectorAll("li");
+
+// function MoveLi(){
+//   listwo.append(this);
+//   this.removeEventListener("click", MoveLi);
+// }
+// li.forEach( (el) => {
+//   el.addEventListener("click", MoveLi);
+// });
