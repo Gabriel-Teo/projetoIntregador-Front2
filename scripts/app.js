@@ -3,17 +3,81 @@ document.addEventListener('invalid', function (event) {
     event.preventDefault();
 }, true)
 
+
+
 //Validação envia (Fazer)
 let btnSubmit = document.getElementById('btnSubmit')
+
+
 
 btnSubmit.addEventListener('click', function (event) {
     event.preventDefault();
     if (inputEmail.validity.valid == true && inputPassword.validity.valid == true) {
         console.log('foi')
         btnSubmit.innerText = 'FOI'
+
+// Normalizando as entradas:
+
+    let emailNormalizado = inputEmail.value.trim()
+    let emailNormalizado2 = emailNormalizado.toLowerCase()
+    let senhaNormalizada = inputPassword.value.trim()
+    
+    let objetoLg = {
+        email: emailNormalizado2,
+        password: senhaNormalizada
+    }
+    let objetoJs = JSON.stringify(objetoLg)
+    
+    loginSystem(objetoJs)
     }
 
 })
+
+// Função de ligação API
+
+function loginSystem(objeto){
+    let requestInit = {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"},
+        body: objeto
+    }
+    fetch("https://ctd-fe2-todo-v2.herokuapp.com/v1/users/login", requestInit)
+    .then(
+        resposta => {
+            if(resposta.status == 200 || resposta.status == 201){
+                return resposta.json()
+            }else{
+                throw resposta;
+            }           
+        }
+    )
+    .then(
+        resposta => {
+            loginSucesso(resposta)
+        }   
+    )
+    .catch(
+        erro =>{
+            insucesso(erro)
+        }
+    )
+}
+
+function loginSucesso(resposta){
+    sessionStorage.setItem("jwt", resposta.jwt)
+    window.location.href = "tarefas.html"
+    console.log(resposta)
+}
+function insucesso(resposta){
+    if(resposta.status==400 || resposta.status==404){
+        alert("Login e/ou senha incorreto")
+    }else{
+        alert("Servidor fora do ar")
+    }
+console.log(resposta)
+}
+
 
 //Validação e-mail
 let inputEmail = document.getElementById('inputEmail');
@@ -34,6 +98,7 @@ inputEmail.addEventListener('keyup', function () {
 //Validação password
 let inputPassword = document.getElementById('inputPassword');
 inputPassword.addEventListener('keyup', function () {
+    
     if (inputPassword.value.length < 8) {
         inputPassword.classList.remove('acessoPermitido');
         inputPassword.classList.add('acessoNegado');
@@ -43,4 +108,6 @@ inputPassword.addEventListener('keyup', function () {
         inputPassword.classList.add('acessoPermitido');
         inputPassword.validity = true
     }
+    console.log(inputPassword.validity)
 })
+
