@@ -1,4 +1,5 @@
 @import url('./common.css');
+
 header {
   display: flex;
   background: linear-gradient(90deg, var(--primary), var(--secondary));
@@ -36,7 +37,7 @@ a {
   margin-left: .7em;
 }
 
-#closeApp{
+#closeApp {
   margin-left: 15px;
   font-size: .7em;
   background-color: rgb(218, 88, 88);
@@ -207,11 +208,12 @@ a {
   margin: 2em 15%;
 }
 
-.tarefas-terminadas i{
+.tarefas-terminadas i {
   color: grey;
   background-color: rgb(228, 228, 228);
 }
-.tarefas-terminadas button{
+
+.tarefas-terminadas button {
   margin-left: 10px;
 }
 
@@ -224,21 +226,29 @@ a {
   text-decoration: line-through;
 }
 
-#skeleton .descricao{
-  background-color: rgb(189, 189, 189);
-}
-#skeleton p{
-  background-color: rgb(214, 214, 214);
-  color: rgb(214, 214, 214);
-}
-#skeleton .not-done{
+#skeleton .descricao {
   background-color: rgb(189, 189, 189);
 }
 
-#skeleton{
+#skeleton p {
+  background-color: rgb(214, 214, 214);
+  color: rgb(214, 214, 214);
+}
+
+#skeleton .not-done {
+  background-color: rgb(189, 189, 189);
+}
+
+#skeleton {
   animation: trasparencia 1s infinite;
 }
+
 @keyframes trasparencia {
-  0%{ opacity: 0.5;}
-  100%{ opacity: 0.8;}
+  0% {
+    opacity: 0.5;
+  }
+
+  100% {
+    opacity: 0.8;
+  }
 }

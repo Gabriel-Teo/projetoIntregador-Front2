@@ -1,0 +1,25 @@
+LOG DE ALTERAÇÕES (solicitada pelo professor)
+
+Gabriel Teodoro = {
+    validações de login e cadastro,
+    conexão api (pagina de Cadastro/Tarefas),
+    manipulação de DOM das tasks,
+    documentação basica do codigo (comentarios)
+}
+
+Gustavo Dias = {
+    conexão api pagina de login,
+    documentação do codigo
+}
+
+Matheus Galvão = {
+    responsável pelo CSS
+}
+
+Darlan = {
+    
+}
+
+Werlon Lima = {
+
+}
