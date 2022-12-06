@@ -7,14 +7,41 @@ let listaPendente = document.getElementById('tarefasPendentes');
 let listaTerminada = document.getElementById('tarefasTerminadas');
 let inputTarefa = document.getElementById('novaTarefa');
 
+// Verifica se token é valido
+onload = function(){
+    if(!userJwt){
+        window.location.href = "index.html";
+    }else{
+        capturaDadosUser()
+    }
+}
+
+// Função Async que captura dados
+async function capturaDadosUser(){
+    let requestInit = {
+            headers: {
+            "authorization": userJwt
+        }
+        
+    }
+
+    let dadosUser = await fetch(`${baseUrl()}/users/getMe`, requestInit);
+    let dadosJS = await dadosUser.json(); 
+   renderizaDados(dadosJS);
+
+}
+
+function renderizaDados(dados){
+    nomeUsuario.innerText = `${dados.firstName} ${dados.lastName}`
+
+}
+
 //onload atualiza lista de tasks e coloca função nos botões.
 document.addEventListener('DOMContentLoaded', function () {
     atualizaTasks(userJwt);
     stateBtn();
 })
 
-//teste (ignorar)
-nomeUsuario.innerText = 'teste'
 
 //formulario de adicionar tarefa.
 form.addEventListener('submit', function (event) {
