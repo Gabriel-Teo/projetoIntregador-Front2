@@ -16,13 +16,14 @@ btnSubmit.addEventListener('click', function (event) {
         console.log('foi')
         btnSubmit.innerText = 'FOI'
 
-        // Normalizando as entradas:
+// Normalizando as entradas:
 
     let emailNormalizado = inputEmail.value.trim()
+    let emailNormalizado2 = emailNormalizado.toLowerCase()
     let senhaNormalizada = inputPassword.value.trim()
     
     let objetoLg = {
-        email: emailNormalizado,
+        email: emailNormalizado2,
         password: senhaNormalizada
     }
     let objetoJs = JSON.stringify(objetoLg)
@@ -48,33 +49,31 @@ function loginSystem(objeto){
                 return resposta.json()
             }else{
                 throw resposta;
-            }
-            
+            }           
         }
     )
     .then(
         resposta => {
             loginSucesso(resposta)
-        }
-    
+        }   
     )
     .catch(
         erro =>{
             insucesso(erro)
         }
     )
-
 }
 
 function loginSucesso(resposta){
     sessionStorage.setItem("jwt", resposta.jwt)
     window.location.href = "tarefas.html"
     console.log(resposta)
-
 }
 function insucesso(resposta){
     if(resposta.status==400 || resposta.status==404){
         alert("Login e/ou senha incorreto")
+    }else{
+        alert("Servidor fora do ar")
     }
 console.log(resposta)
 }
