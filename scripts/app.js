@@ -1,112 +1,111 @@
+//Variaveis DOM (agrupamento aqui para ficar mais facil e menos confuso)
+let btnSubmit = document.getElementById('btnSubmit');
+let inputEmail = document.getElementById('inputEmail');
+let inputPassword = document.getElementById('inputPassword');
+
 //tirar pop-up do documento
 document.addEventListener('invalid', function (event) {
     event.preventDefault();
 }, true)
 
+//validação (remake)
+let emailValid = false;
+let passwordValid = false;
 
-
-//Validação envia (Fazer)
-let btnSubmit = document.getElementById('btnSubmit')
-
-
-
+//Validação envia
 btnSubmit.addEventListener('click', function (event) {
     event.preventDefault();
-    if (inputEmail.validity.valid == true && inputPassword.validity.valid == true){
-        console.log('foi')
-        btnSubmit.innerText = 'FOI'
-
-// Normalizando as entradas:
-
-    let emailNormalizado = inputEmail.value.trim()
-    let emailNormalizado2 = emailNormalizado.toLowerCase()
-    let senhaNormalizada = inputPassword.value.trim()
-    
-    let objetoLg = {
-        email: emailNormalizado2,
-        password: senhaNormalizada
+    if (emailValid == true && passwordValid == true) {
+        // Normalizando as entradas:
+        let emailNormalizado = inputEmail.value.trim()
+        let emailNormalizado2 = emailNormalizado.toLowerCase()
+        let senhaNormalizada = inputPassword.value.trim()
+        // Criando obj de login
+        let objetoLg = {
+            email: emailNormalizado2,
+            password: senhaNormalizada
+        }
+        // Transformando o objeto login em json
+        let objetoJs = JSON.stringify(objetoLg)
+        //função login
+        loginSystem(objetoJs)
+    } else {
+        alert('valida as coisa ai (trocar alerts por css)')
     }
-    let objetoJs = JSON.stringify(objetoLg)
-    
-    loginSystem(objetoJs)
-    }
-
 })
 
-// Função de ligação API
-
-function loginSystem(objeto){
+// Função de login na API
+function loginSystem(objeto) {
     let requestInit = {
         method: "POST",
         headers: {
-            "Content-Type": "application/json"},
+            "Content-Type": "application/json"
+        },
         body: objeto
     }
-    fetch("https://ctd-fe2-todo-v2.herokuapp.com/v1/users/login", requestInit)
-    .then(
-        resposta => {
-            if(resposta.status == 200 || resposta.status == 201){
-                return resposta.json()
-            }else{
-                throw resposta;
-            }           
-        }
-    )
-    .then(
-        resposta => {
-            loginSucesso(resposta)
-        }   
-    )
-    .catch(
-        erro =>{
-            insucesso(erro)
-        }
-    )
+    fetch(`${baseUrl()}/users/login`, requestInit)
+        .then(
+            resposta => {
+                if (resposta.status == 200 || resposta.status == 201) {
+                    return resposta.json()
+                } else {
+                    throw resposta;
+                }
+            }
+        )
+        .then(
+            resposta => {
+                loginSucesso(resposta)
+            }
+        )
+        .catch(
+            erro => {
+                insucesso(erro)
+            }
+        )
 }
 
-function loginSucesso(resposta){
+//sucesso login
+function loginSucesso(resposta) {
     sessionStorage.setItem("jwt", resposta.jwt)
     window.location.href = "tarefas.html"
     console.log(resposta)
 }
-function insucesso(resposta){
-    if(resposta.status==400 || resposta.status==404){
+//falha login
+function insucesso(resposta) {
+    if (resposta.status == 400 || resposta.status == 404) {
         alert("Login e/ou senha incorreto")
-    }else{
+    } else {
         alert("Servidor fora do ar")
     }
-console.log(resposta)
+    console.log(resposta)
 }
 
-
 //Validação e-mail
-let inputEmail = document.getElementById('inputEmail');
 inputEmail.addEventListener('keyup', function () {
     var validRegex = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     if (inputEmail.value.match(validRegex)) {
         inputEmail.classList.remove('acessoNegado')
         inputEmail.classList.add('acessoPermitido');
-        inputEmail.validity = true;
+        emailValid = true;
     } else {
         inputEmail.classList.remove('acessoPermitido');
         inputEmail.classList.add('acessoNegado');
-        inputEmail.validity.valid = false;
+        emailValid = false;
     }
-
 })
 
 //Validação password
-let inputPassword = document.getElementById('inputPassword');
 inputPassword.addEventListener('keyup', function () {
-    
+
     if (inputPassword.value.length < 8) {
         inputPassword.classList.remove('acessoPermitido');
         inputPassword.classList.add('acessoNegado');
-        inputPassword.validity = false
+        passwordValid = false
     } else {
         inputPassword.classList.remove('acessoNegado');
         inputPassword.classList.add('acessoPermitido');
-        inputPassword.validity = true
+        passwordValid = true
     }
     console.log(inputPassword.validity)
 })
