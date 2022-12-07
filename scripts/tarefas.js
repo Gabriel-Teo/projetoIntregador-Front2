@@ -97,10 +97,10 @@ function attTask(array) {
                 <div class="descricao" id="${array[i].id}>
                     <p class="nome">${array[i].description}</p>
                     <p class="timestamp">Criada em: ${array[i].createdAt}</p>
-                    <p class="cancelar" id="clearTask" onclick="${apagaTask(array[i].id)}> Apagar Tarefa</p>
-                </div>
-                
+                   </div>
+                   <div class="cancelar" id="clearTask" onclick="${apagaTask(array[i].id)}"> Apagar Tarefa</div>
             </li>`
+            
 
         if (array[i].completed === false) {
             listaPendente.innerHTML += tarefa;
@@ -148,7 +148,6 @@ function stateBtn() {
 
 // função apagar task
 
-btnApagar = addEventListener("click", apagaTask)
 async function apagaTask(id){
 
     
@@ -169,6 +168,7 @@ async function apagaTask(id){
         Alert('Erro! Tarefa não apagada')
     }
 }
+
 
 
 
