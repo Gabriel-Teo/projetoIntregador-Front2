@@ -13,6 +13,8 @@ document.addEventListener('DOMContentLoaded', function () {
     stateBtn();
 })
 
+//função buscar 
+
 //teste (ignorar)
 nomeUsuario.innerText = 'teste'
 
@@ -49,7 +51,7 @@ async function atualizaTasks(jwt) {
         console.log(lista)
         if (lista.status == 200) {
             let listaResponse = await lista.json();
-            attTask(listaResponse);
+            renderizaTasks(listaResponse);
         } else {
             throw lista
         }
@@ -59,7 +61,7 @@ async function atualizaTasks(jwt) {
 }
 
 //função que "atualiza task" adiciona uma task com o formato correto no html
-function attTask(array) {
+function renderizaTasks(array) {
     console.log(array)
     for (let i = 0; i < array.length; i++) {
         let tarefa = `
@@ -96,7 +98,7 @@ async function postaTask(response) {
         let post = await fetch(`${baseUrl()}/tasks`, requestConfig);
         if (post.status == 201) {
             let postResponse = [await post.json()];
-            attTask(postResponse);
+            renderizaTasks(postResponse);
             console.log('posta task FOI MERMAO')
         }
     } catch (error) {
@@ -110,15 +112,17 @@ function stateBtn() {
     btn.forEach(btn => {
         btn.addEventListener('click', function () {
             //trazer função async {PUT} para atualizar post na api
-            listaTerminada.append(this.parentNode)
+            //fazer confirmação (status 200)
+            listaTerminada.append(this.parentNode);
         })
     })
 }
 
-
 // adicionar botão para excluir e/ou retornar
+
 
 // adicionar alteração do nome com a função async getMe (colocar no DOMContentLoaded)
 
 // fazer o botão de finalizar sessão funcionar (limpar os dados no storage)
 
+// adicionar de maneira inteligente o PUT editando a task "postaTask"
