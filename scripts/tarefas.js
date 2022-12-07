@@ -7,7 +7,8 @@ let listaPendente = document.getElementById('tarefasPendentes');
 let listaTerminada = document.getElementById('tarefasTerminadas');
 let inputTarefa = document.getElementById('novaTarefa');
 let finalizarBtn = document.getElementById('closeApp')
-
+let btnApagar = document.getElementById("clearTask")
+let idEvento;
 
 //onload atualiza lista de tasks e coloca função nos botões.
 document.addEventListener('DOMContentLoaded', function () {
@@ -93,11 +94,12 @@ function attTask(array) {
         let tarefa = `
             <li class="nova-tarefa">
                 <div class="not-done"></div>
-                <div class="descricao">
+                <div class="descricao" id="${array[i].id}>
                     <p class="nome">${array[i].description}</p>
                     <p class="timestamp">Criada em: ${array[i].createdAt}</p>
+                    <p class="cancelar" id="clearTask" onclick="${apagaTask(array[i].id)}> Apagar Tarefa</p>
                 </div>
-                <div class="cancelar" id="clearTask"> Apagar Tarefa</div>
+                
             </li>`
 
         if (array[i].completed === false) {
@@ -146,9 +148,10 @@ function stateBtn() {
 
 // função apagar task
 
-async function apagaTask(){
+btnApagar = addEventListener("click", apagaTask)
+async function apagaTask(id){
 
-    let btnApagar = document.getElementById("clearTask")
+    
     let requestClear = {
         method: "DELETE",
         headers: {
@@ -157,7 +160,7 @@ async function apagaTask(){
 
     }
     try {
-        let clear = await fetch(`${baseUrl()}/tasks${id}`, requestClear);
+        let clear = await fetch(`${baseUrl()}/tasks/${id}`, requestClear);
         if (clear.status == 201) {
             let clearResponse = [await post.json()];
             
@@ -171,9 +174,10 @@ async function apagaTask(){
 
 // Botão de finalizar sessão
 finalizarBtn.addEventListener("click", function(){
-
+    let confirma = confirm("Você tem certeza que quer sair?")
+    if(confirma == true){
     userJwt = sessionStorage.clear();
-    window.location.href = "index.html"
+    window.location.href = "index.html"}
 })
 
 

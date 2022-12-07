@@ -10,9 +10,9 @@ Gabriel Teodoro = {
 Gustavo Dias = {
     conexão api pagina de login,
     conexão api users/getMe
+    conexão api user delete
     botão de finalização
-    comentários
-    documentação do codigo
+    comentários(documentação do codigo)
 }
 
 Matheus Galvão = {
