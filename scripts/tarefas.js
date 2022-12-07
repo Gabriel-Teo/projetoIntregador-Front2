@@ -94,11 +94,11 @@ function attTask(array) {
         let tarefa = `
             <li class="nova-tarefa">
                 <div class="not-done"></div>
-                <div class="descricao" id="${array[i].id}>
+                <div class="descricao">
                     <p class="nome">${array[i].description}</p>
                     <p class="timestamp">Criada em: ${array[i].createdAt}</p>
                    </div>
-                   <div class="cancelar" id="clearTask" onclick="${apagaTask(array[i].id)}"> Apagar Tarefa</div>
+                   <div class="cancelar" id="clearTask" onclick="apagaTask(${array[i].id})"> Apagar Tarefa</div>
             </li>`
             
 
@@ -147,8 +147,7 @@ function stateBtn() {
 }
 
 // função apagar task
-
-async function apagaTask(id){
+async function apagaTask(idTarefa){
 
     
     let requestClear = {
@@ -159,19 +158,19 @@ async function apagaTask(id){
 
     }
     try {
-        let clear = await fetch(`${baseUrl()}/tasks/${id}`, requestClear);
-        if (clear.status == 201) {
-            let clearResponse = [await post.json()];
-            
+        let clear = await fetch(`${baseUrl()}/tasks/${idTarefa}`, requestClear);
+        if (clear.status == 201 || clear.status == 200) {
+            let clearResponse = await clear.json();
+            location.reload()
+            alert(clearResponse)
         }
+        
+        
     } catch (error) {
         Alert('Erro! Tarefa não apagada')
     }
+    
 }
-
-
-
-
 // Botão de finalizar sessão
 finalizarBtn.addEventListener("click", function(){
     let confirma = confirm("Você tem certeza que quer sair?")
