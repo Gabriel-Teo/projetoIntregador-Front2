@@ -47,6 +47,15 @@ a {
   cursor: pointer;
 }
 
+.cancelar {
+  margin-left: 300px;
+  font-size: .7em;
+  background-color: rgb(218, 88, 88);
+  color: white;
+  border-radius: 50vh;
+  padding: 5px 10px;
+  cursor: pointer;
+}
 /* Nova tarefa ----------------------------------------------------------- */
 
 .nova-tarefa {
