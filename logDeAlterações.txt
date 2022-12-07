@@ -10,6 +10,7 @@ Gabriel Teodoro = {
 Gustavo Dias = {
     conexão api pagina de login,
     conexão api users/getMe
+    botão de finalização
     comentários
     documentação do codigo
 }

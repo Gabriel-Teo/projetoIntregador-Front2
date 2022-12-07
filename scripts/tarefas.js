@@ -6,15 +6,43 @@ let userJwt = sessionStorage.getItem("jwt");
 let listaPendente = document.getElementById('tarefasPendentes');
 let listaTerminada = document.getElementById('tarefasTerminadas');
 let inputTarefa = document.getElementById('novaTarefa');
+let finalizarBtn = document.getElementById('closeApp')
+
 
 //onload atualiza lista de tasks e coloca função nos botões.
 document.addEventListener('DOMContentLoaded', function () {
     atualizaTasks(userJwt);
     stateBtn();
+
+    // Verifica se token é valido
+    if(!userJwt){
+        window.location.href = "index.html";
+    }else{
+        capturaDadosUser()
+    }
+
+    // Função Async que captura dados user
+
+    async function capturaDadosUser(){
+        let requestInit = {
+                headers: {
+                "authorization": userJwt
+            }
+            
+        }
+    
+        let dadosUser = await fetch(`${baseUrl()}/users/getMe`, requestInit);
+        let dadosJS = await dadosUser.json(); 
+       renderizaDados(dadosJS);
+    
+    }
+    
+    function renderizaDados(dados){
+        nomeUsuario.innerText = `${dados.firstName} ${dados.lastName}`
+    
+    }
 })
 
-//teste (ignorar)
-nomeUsuario.innerText = 'teste'
 
 //formulario de adicionar tarefa.
 form.addEventListener('submit', function (event) {
@@ -69,6 +97,7 @@ function attTask(array) {
                     <p class="nome">${array[i].description}</p>
                     <p class="timestamp">Criada em: ${array[i].createdAt}</p>
                 </div>
+                <div class="cancelar" id="clearTask"> Apagar Tarefa</div>
             </li>`
 
         if (array[i].completed === false) {
@@ -114,6 +143,38 @@ function stateBtn() {
         })
     })
 }
+
+// função apagar task
+
+async function apagaTask(){
+
+    let btnApagar = document.getElementById("clearTask")
+    let requestClear = {
+        method: "DELETE",
+        headers: {
+            "authorization": `${userJwt}`,
+        }
+
+    }
+    try {
+        let clear = await fetch(`${baseUrl()}/tasks${id}`, requestClear);
+        if (clear.status == 201) {
+            let clearResponse = [await post.json()];
+            
+        }
+    } catch (error) {
+        Alert('Erro! Tarefa não apagada')
+    }
+}
+
+
+
+// Botão de finalizar sessão
+finalizarBtn.addEventListener("click", function(){
+
+    userJwt = sessionStorage.clear();
+    window.location.href = "index.html"
+})
 
 
 // adicionar botão para excluir e/ou retornar
