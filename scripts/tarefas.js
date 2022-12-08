@@ -148,7 +148,8 @@ function stateBtn() {
 
 // função apagar task
 async function apagaTask(idTarefa){
-
+let confirmaDel = confirm("Tem certeza que deseja apagar?")
+    if(confirmaDel) {
     
     let requestClear = {
         method: "DELETE",
@@ -169,7 +170,7 @@ async function apagaTask(idTarefa){
     } catch (error) {
         Alert('Erro! Tarefa não apagada')
     }
-    
+}
 }
 // Botão de finalizar sessão
 finalizarBtn.addEventListener("click", function(){
