@@ -43,6 +43,7 @@ function loginSystem(objeto) {
         },
         body: objeto
     }
+    ligaSpinner()
     fetch(`${baseUrl()}/users/login`, requestInit)
         .then(
             resposta => {
@@ -55,7 +56,10 @@ function loginSystem(objeto) {
         )
         .then(
             resposta => {
-                loginSucesso(resposta)
+                setTimeout(() => {
+                    loginSucesso(resposta)
+                }, 3000);
+                
             }
         )
         .catch(
@@ -73,6 +77,7 @@ function loginSucesso(resposta) {
 }
 //falha login
 function insucesso(resposta) {
+    desligaSpinner()
     if (resposta.status == 400 || resposta.status == 404) {
         alert("Login e/ou senha incorreto")
     } else {
