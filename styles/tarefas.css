@@ -109,6 +109,17 @@ a {
   width: 100%;
 }
 
+.done {
+  width: 2em;
+  height: 2em;
+  background-color: var(--app-grey);
+  margin-right: 1em;
+  border-radius: 50%;
+  cursor: pointer;
+  text-align: center;
+  color: grey;
+}
+
 .not-done {
   width: 2em;
   height: 2em;

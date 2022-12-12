@@ -12,34 +12,33 @@ let finalizarBtn = document.getElementById('closeApp')
 //onload atualiza lista de tasks e coloca função nos botões.
 document.addEventListener('DOMContentLoaded', function () {
     atualizaTasks(userJwt);
-    stateBtn();
 
     // Verifica se token é valido
-    if(!userJwt){
+    if (!userJwt) {
         window.location.href = "index.html";
-    }else{
+    } else {
         capturaDadosUser()
     }
 
     // Função Async que captura dados user
 
-    async function capturaDadosUser(){
+    async function capturaDadosUser() {
         let requestInit = {
-                headers: {
+            headers: {
                 "authorization": userJwt
             }
-            
+
         }
-    
+
         let dadosUser = await fetch(`${baseUrl()}/users/getMe`, requestInit);
-        let dadosJS = await dadosUser.json(); 
-       renderizaDados(dadosJS);
-    
+        let dadosJS = await dadosUser.json();
+        renderizaDados(dadosJS);
+
     }
-    
-    function renderizaDados(dados){
+
+    function renderizaDados(dados) {
         nomeUsuario.innerText = `${dados.firstName} ${dados.lastName}`
-    
+
     }
 })
 
@@ -74,7 +73,7 @@ async function atualizaTasks(jwt) {
     //try/catch
     try {
         let lista = await fetch(`${baseUrl()}/tasks`, requestConfig)
-        console.log(lista)
+        console.log(lista.status)
         if (lista.status == 200) {
             let listaResponse = await lista.json();
             renderizaTasks(listaResponse);
@@ -82,29 +81,36 @@ async function atualizaTasks(jwt) {
             throw lista
         }
     } catch (error) {
-        console.log('caiu no catch')
+        console.log('catch attTasks')
     }
 }
 
 //função que "renderiza task" adiciona uma task com o formato correto no html
 function renderizaTasks(array) {
-    console.log(array)
     for (let i = 0; i < array.length; i++) {
-        let tarefa = `
-            <li class="nova-tarefa">
-                <div class="not-done" onclick="stateBtn(${array[i].completed})" id="${array[i].id}"></div>
+        let btnDiv = document.createElement("div")
+        btnDiv.classList.add("not-done")
+        let li = document.createElement("li")
+        li.classList.add("nova-tarefa")
+        li.id = array[i].id
+        li.innerHTML =
+            `
+                
                 <div class="descricao">
                     <p class="nome">${array[i].description}</p>
                     <p class="timestamp">Criada em: ${array[i].createdAt}</p>
                 </div>
                 <div class="cancelar" id="clearTask"> Apagar Tarefa</div>
-            </li>`
+        `
+        li.insertBefore(btnDiv, li.firstChild)
+        btnDiv.onclick = stateBtn(li, array[i].completed);
 
         if (array[i].completed === false) {
-            listaPendente.innerHTML += tarefa;
+            listaPendente.appendChild(li);
         } else if (array[i].completed === true) {
-            listaTerminada.innerHTML += tarefa;
+            listaTerminada.appendChild(li);
         }
+
     }
 }
 
@@ -133,29 +139,68 @@ async function postaTask(response) {
 }
 
 //função dos botões (alteram o estado complete da task {PUT})
-function stateBtn(status) {
+function stateBtn(li, status) {
+    // let btn = document.querySelectorAll('.stateBtn');
+    // btn.forEach(btn => {
+    li.addEventListener('click', function () {
+
+        let id = this.id;
+        console.log('abaixo');
+        console.log(id)
+        console.log(status)
+        //Corpo da requisição que vai para a API.
         let body = {
-            "completed": status
-          }
-            //trazer função async {PUT} para atualizar post na api
-            //fazer confirmação (status 200)
-            listaTerminada.append(this.parentNode);
-        
+            "completed": !status
+        }
+        let bodyJson = JSON.stringify(body)
+        // manipula o local do DOM
+        if (status) {
+            this.classList.remove("not-done")
+            this.classList.add("done")
+
+            this.parentNode.removeChild(this)
+        } else {
+            this.classList.remove("done")
+            this.classList.add("not-done")
+            this.parentNode.removeChild(this)
+        }
+        changeStatus(bodyJson, id)
+        //trazer função async {PUT} para atualizar post na api
+
+    })
+    // })
+    //trazer função async {PUT} para atualizar post na api
+    //fazer confirmação (status 200)
+
 }
 
 //função statusTask
-async function changeStatus(response) {
+async function changeStatus(body, id) {
     let requestConfig = {
         method: "PUT",
-        body: response,
+        body: body,
         headers: {
             "authorization": `${userJwt}`,
             "content-Type": "application/json"
         }
-}}
+    }
+
+    try {
+        let update = await fetch(`${baseUrl()}/tasks/${id}`, requestConfig)
+        if (update.status == 200) {
+            let updateJson = [await update.json()]
+            console.log(updateJson)
+            renderizaTasks(updateJson)
+        } else {
+            throw update;
+        }
+    } catch (error) {
+        alert('catch do changeStatus')
+    }
+}
 
 // função apagar task
-async function apagaTask(){
+async function apagaTask() {
 
     let btnApagar = document.getElementById("clearTask")
     let requestClear = {
@@ -169,7 +214,7 @@ async function apagaTask(){
         let clear = await fetch(`${baseUrl()}/tasks${id}`, requestClear);
         if (clear.status == 201) {
             let clearResponse = [await post.json()];
-            
+
         }
     } catch (error) {
         Alert('Erro! Tarefa não apagada')
@@ -179,7 +224,7 @@ async function apagaTask(){
 
 
 // Botão de finalizar sessão
-finalizarBtn.addEventListener("click", function(){
+finalizarBtn.addEventListener("click", function () {
 
     userJwt = sessionStorage.clear();
     window.location.href = "index.html"
