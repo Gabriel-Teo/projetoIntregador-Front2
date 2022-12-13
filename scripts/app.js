@@ -3,6 +3,10 @@ let btnSubmit = document.getElementById('btnSubmit');
 let inputEmail = document.getElementById('inputEmail');
 let inputPassword = document.getElementById('inputPassword');
 
+document.addEventListener("DOMContentLoaded", function () {
+    bloqueiaBtn()
+})
+
 //tirar pop-up do documento
 document.addEventListener('invalid', function (event) {
     event.preventDefault();
@@ -30,7 +34,10 @@ btnSubmit.addEventListener('click', function (event) {
         //função login
         loginSystem(objetoJs)
     } else {
-        alert('valida as coisa ai (trocar alerts por css)')
+        inputEmail.classList.remove('acessoPermitido');
+        inputEmail.classList.add('acessoNegado');
+        inputPassword.classList.remove('acessoPermitido');
+        inputPassword.classList.add('acessoNegado');
     }
 })
 
@@ -93,25 +100,39 @@ inputEmail.addEventListener('keyup', function () {
         inputEmail.classList.remove('acessoNegado')
         inputEmail.classList.add('acessoPermitido');
         emailValid = true;
+        bloqueiaBtn()
     } else {
         inputEmail.classList.remove('acessoPermitido');
         inputEmail.classList.add('acessoNegado');
         emailValid = false;
+        bloqueiaBtn()
     }
 })
 
 //Validação password
 inputPassword.addEventListener('keyup', function () {
-
+    
     if (inputPassword.value.length < 8) {
         inputPassword.classList.remove('acessoPermitido');
         inputPassword.classList.add('acessoNegado');
         passwordValid = false
+        bloqueiaBtn()
     } else {
         inputPassword.classList.remove('acessoNegado');
         inputPassword.classList.add('acessoPermitido');
         passwordValid = true
+        bloqueiaBtn()
     }
-    console.log(inputPassword.validity)
 })
+
+function bloqueiaBtn() {
+    if (emailValid && passwordValid === true) {
+        btnSubmit.innerText = 'Acessar'
+        btnSubmit.style.backgroundColor = 'orangered'
+    } else {
+        btnSubmit.innerText = 'Bloqueado'
+        btnSubmit.style.backgroundColor = 'gray'
+    }
+}
+
 
