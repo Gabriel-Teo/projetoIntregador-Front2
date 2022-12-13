@@ -7,7 +7,8 @@ let listaPendente = document.getElementById('tarefasPendentes');
 let listaTerminada = document.getElementById('tarefasTerminadas');
 let inputTarefa = document.getElementById('novaTarefa');
 let finalizarBtn = document.getElementById('closeApp')
-
+let btnApagar = document.getElementById("clearTask")
+let idEvento;
 
 //onload atualiza lista de tasks e coloca função nos botões.
 document.addEventListener('DOMContentLoaded', function () {
@@ -95,15 +96,15 @@ function renderizaTasks(array) {
         li.id = array[i].id
         li.innerHTML =
             `
-                
                 <div class="descricao">
                     <p class="nome">${array[i].description}</p>
                     <p class="timestamp">Criada em: ${array[i].createdAt}</p>
                 </div>
-                <div class="cancelar" id="clearTask"> Apagar Tarefa</div>
-        `
-        li.insertBefore(btnDiv, li.firstChild)
-        btnDiv.onclick = stateBtn(li, array[i].completed);
+                <div class="cancelar" id="clearTask" onclick="apagaTask(${array[i].id})"> Apagar Tarefa</div>
+            </li>`
+
+        li.insertBefore(btnDiv, li.firstChild);
+        btnDiv.onclick = stateBtn(li.firstChild, array[i].completed);
 
         if (array[i].completed === false) {
             listaPendente.appendChild(li);
@@ -142,9 +143,12 @@ async function postaTask(response) {
 function stateBtn(li, status) {
     // let btn = document.querySelectorAll('.stateBtn');
     // btn.forEach(btn => {
+        console.log(li);
     li.addEventListener('click', function () {
 
-        let id = this.id;
+        let parentNode = this.parentNode;
+        let id = parentNode.id;
+        
         console.log('abaixo');
         console.log(id)
         console.log(status)
@@ -158,11 +162,11 @@ function stateBtn(li, status) {
             this.classList.remove("not-done")
             this.classList.add("done")
 
-            this.parentNode.removeChild(this)
+            parentNode.parentNode.removeChild(parentNode);
         } else {
             this.classList.remove("done")
             this.classList.add("not-done")
-            this.parentNode.removeChild(this)
+            parentNode.parentNode.removeChild(parentNode);
         }
         changeStatus(bodyJson, id)
         //trazer função async {PUT} para atualizar post na api
@@ -200,8 +204,10 @@ async function changeStatus(body, id) {
 }
 
 // função apagar task
-async function apagaTask() {
 
+async function apagaTask(idTarefa){
+    let confirmaDel = confirm("Tem certeza que deseja apagar?")
+        if(confirmaDel) {
     let btnApagar = document.getElementById("clearTask")
     let requestClear = {
         method: "DELETE",
@@ -211,23 +217,24 @@ async function apagaTask() {
 
     }
     try {
-        let clear = await fetch(`${baseUrl()}/tasks${id}`, requestClear);
-        if (clear.status == 201) {
-            let clearResponse = [await post.json()];
-
+        let clear = await fetch(`${baseUrl()}/tasks/${idTarefa}`, requestClear);
+        if (clear.status == 201 || clear.status == 200) {
+            let clearResponse = await clear.json();
+            location.reload()
+            alert(clearResponse)
         }
     } catch (error) {
         Alert('Erro! Tarefa não apagada')
     }
 }
-
-
-
+}
 // Botão de finalizar sessão
-finalizarBtn.addEventListener("click", function () {
-
+finalizarBtn.addEventListener("click", function(){
+    let confirma = confirm("Você tem certeza que quer sair?")
+    if(confirma == true){
     userJwt = sessionStorage.clear();
     window.location.href = "index.html"
+}
 })
 
 
