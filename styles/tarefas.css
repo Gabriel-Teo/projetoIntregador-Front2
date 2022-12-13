@@ -2,29 +2,33 @@
 
 header {
   display: flex;
+  width: 100%;
   background: linear-gradient(90deg, var(--primary), var(--secondary));
   box-shadow: 0px 3px 5px lightgrey;
   padding: 0 3em;
-  margin-bottom: 2em;
+  margin-bottom: .5em;
 }
 
 .div-conteiner {
   display: flex;
-  justify-content: space-between;
+  justify-content: space-around;
+  width: 100%;
 }
+
+
 
 .div-conteiner-column {
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
 }
 
 .div-left {
-  width: 70%;
+  width: 68%;
 }
 
 .div-right {
-  width: auto;
+  width: 30%;
+  ;
 }
 
 a {
@@ -40,7 +44,7 @@ a {
   display: flex;
   align-items: center;
   margin-left: auto;
-  color: rgb(223, 223, 223);
+  color: rgb(0, 0, 0);
 }
 
 .user-info p {
@@ -68,7 +72,7 @@ a {
 
 .cancelar {
   
-  margin-left: 300px;
+  margin-left: auto;
   font-size: .7em;
   background-color: rgb(223, 76, 76);
   color: white;
@@ -79,11 +83,10 @@ a {
 /* Nova tarefa ----------------------------------------------------------- */
 
 .nova-tarefa {
-  position: relative;
   display: flex;
   align-items: center;
-  background-color: white;
-  width: 80%;
+  background-color: rgb(255, 255, 255);
+  width: 100%;
   padding: 1em;
   border-radius: .2em;
   z-index: 20;
@@ -146,7 +149,14 @@ a {
   border-radius: 50%;
   cursor: pointer;
   text-align: center;
-  color: grey;
+  color: rgb(197, 138, 60);
+  transition: 1.5s;
+}
+
+.not-done:hover {
+  background-color: var(--primary);
+  transform: scale(1.1);
+  box-shadow: 3px 5px 5px rgb(116, 116, 116);
 }
 
 /* Lista de tarefas ----------------------------------------------------------- */
@@ -223,13 +233,11 @@ a {
 /* Tarefas terminadas ----------------------------------------------------------- */
 
 .titulo-terminadas {
-  position: relative;
   width: 100%;
   text-align: center;
   padding: .5em 1em;
   background-color: white;
   border-radius: .2em;
-  box-shadow: 3px 3px 5px lightgrey;
   color: rgb(170, 170, 170);
   font-weight: 400;
   font-size: 1.1em;
@@ -239,12 +247,11 @@ a {
 .tarefas-terminadas {
   display: flex;
   flex-direction: column;
-  width: 70%;
+  width: 100%;
   list-style: none;
-  margin: 2em 15%;
 }
 
-.tarefas-terminadas i {
+.tarefas-terminadas li {
   color: grey;
   background-color: rgb(228, 228, 228);
 }
