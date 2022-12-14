@@ -18,6 +18,7 @@ document.addEventListener('DOMContentLoaded', function () {
     if (!userJwt) {
         window.location.href = "index.html";
     } else {
+        renderizarSkeletons(5, ".tarefas-pendentes")
         capturaDadosUser()
     }
 
@@ -73,15 +74,17 @@ async function atualizaTasks(jwt) {
 
     //try/catch
     try{
-        renderizarSkeletons(5, ".tarefas-pendentes")
+        
    
         
         let lista = await fetch(`${baseUrl()}/tasks`, requestConfig)
         console.log(lista.status)
         if (lista.status == 200) {
             let listaResponse = await lista.json();
+            removerSkeleton(".tarefas-pendentes")
             renderizaTasks(listaResponse);
-        } else {
+        
+        // } else {
             throw lista
         }
     } catch (error) {
@@ -91,7 +94,7 @@ async function atualizaTasks(jwt) {
 
 //função que "renderiza task" adiciona uma task com o formato correto no html
 function renderizaTasks(array) {
-    removerSkeleton(".tarefas-pendentes")
+    
     for (let i = 0; i < array.length; i++) {
         let btnDiv = document.createElement("div")
         btnDiv.classList.add("not-done")

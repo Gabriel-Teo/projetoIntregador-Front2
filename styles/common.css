@@ -1,19 +1,20 @@
 @import url('https://fonts.googleapis.com/css2?family=Lato:wght@100;300;400&display=swap');
 
 :root {
-  --primary: #7898FF;
-  --secondary: #8E64C5;
+  --primary: #dc4e6f;
+  --secondary: #eab688;
   --app-grey: #F2F2F2;
 }
 
 * {
+  box-sizing: border-box;
   margin: 0;
   padding: 0;
   font-family: 'Lato', sans-serif;
 }
 
 body {
-  background-color: #F6F6F6;
+  background-color: #efefef;
   min-height: 100vh;
 }
 

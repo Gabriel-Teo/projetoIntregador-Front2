@@ -12,7 +12,9 @@ Gustavo Dias = {
     conexão api users/getMe
     conexão api user delete
     botão de finalização
+    implementação de skeleton
     comentários(documentação do codigo)
+    
 }
 
 Matheus Galvão = {

@@ -9,12 +9,14 @@ let inputLName = document.getElementById('inputLastName');
 let inputFPass = document.getElementById('inputPassword');
 //Senha Repetida (campo confirmação)
 let inputRPass = document.getElementById('inputRPassword');
+let btnSubmit = document.getElementById('inputBtn');
 
 
 //cancela pop-up padrão
 document.addEventListener('invalid', function (event) {
     event.preventDefault();
 }, true)
+
 
 
 //Validações
@@ -24,12 +26,8 @@ let emailValid = false;
 let fPassValid = false;
 let rPassValid = false;
 
-//Botão 'criar conta'
-form.addEventListener('submit', function (event) {
-    //prevenção do evento default
-    event.preventDefault();
 
-    //normalização de values
+function validaTudo() {
     fName = normalizarTrim(inputFName.value);
     lName = normalizarTrim(inputLName.value);
     email = normalizarTrim(normalizarLowerC(inputEmail.value));
@@ -39,10 +37,20 @@ form.addEventListener('submit', function (event) {
     let validArray = [fNameValid, lNameValid, emailValid, fPassValid, rPassValid];
 
     //função para ver se todos estão validos
-    const allEqual = array => array.every(val => val === true);
+    const allEqual = array => array.every(val => val === true)
+    return allEqual(validArray);
+}
+document.addEventListener("DOMContentLoaded", bloqueiaBtn())
+//Botão 'criar conta'
+form.addEventListener('submit', function (event) {
+    //prevenção do evento default
+    event.preventDefault();
+
+    //normalização de values
+    ;
 
     //verifica se estão todos iguais
-    if (allEqual(validArray)) {
+    if (validaTudo()) {
         //criar objeto de cadastro
         let cadastro = {
             firstName: fName,
@@ -112,10 +120,12 @@ inputFName.addEventListener('keyup', function () {
         inputFName.classList.remove('acessoPermitido');
         inputFName.classList.add('acessoNegado');
         fNameValid = false;
+        bloqueiaBtn();
     } else {
         inputFName.classList.remove('acessoNegado');
         inputFName.classList.add('acessoPermitido');
         fNameValid = true;
+        bloqueiaBtn();
     }
 })
 
@@ -129,10 +139,12 @@ inputLName.addEventListener('keyup', function () {
         inputLName.classList.remove('acessoPermitido');
         inputLName.classList.add('acessoNegado');
         lNameValid = false;
+        bloqueiaBtn();
     } else {
         inputLName.classList.remove('acessoNegado');
         inputLName.classList.add('acessoPermitido');
         lNameValid = true;
+        bloqueiaBtn();
     }
 })
 
@@ -147,10 +159,12 @@ inputEmail.addEventListener('keyup', function () {
         inputEmail.classList.remove('acessoNegado');
         inputEmail.classList.add('acessoPermitido');
         emailValid = true;
+        bloqueiaBtn();
     } else {
         inputEmail.classList.remove('acessoPermitido');
         inputEmail.classList.add('acessoNegado');
         emailValid = false;
+        bloqueiaBtn();
     }
 })
 
@@ -164,10 +178,24 @@ inputFPass.addEventListener('keyup', function () {
         inputFPass.classList.remove('acessoPermitido');
         inputFPass.classList.add('acessoNegado');
         fPassValid = false;
+        bloqueiaBtn();
     } else {
         inputFPass.classList.remove('acessoNegado');
         inputFPass.classList.add('acessoPermitido');
         fPassValid = true;
+        bloqueiaBtn();
+    }
+
+    if (rPass != inputFPass.value || rPass.length < 8) {
+        inputRPass.classList.remove('acessoPermitido');
+        inputRPass.classList.add('acessoNegado');
+        rPassValid = false;
+        bloqueiaBtn()
+    } else {
+        inputRPass.classList.remove('acessoNegado');
+        inputRPass.classList.add('acessoPermitido');
+        rPassValid = true;
+        bloqueiaBtn()
     }
 })
 
@@ -181,9 +209,22 @@ inputRPass.addEventListener('keyup', function () {
         inputRPass.classList.remove('acessoPermitido');
         inputRPass.classList.add('acessoNegado');
         rPassValid = false;
+        bloqueiaBtn()
     } else {
         inputRPass.classList.remove('acessoNegado');
         inputRPass.classList.add('acessoPermitido');
         rPassValid = true;
+        bloqueiaBtn()
     }
 })
+
+function bloqueiaBtn() {
+    if (validaTudo()) {
+        btnSubmit.innerText = 'Acessar'
+        btnSubmit.style.backgroundColor = 'orangered'
+    } else {
+        btnSubmit.innerText = 'Bloqueado'
+        btnSubmit.style.backgroundColor = 'gray'
+    }
+}
+

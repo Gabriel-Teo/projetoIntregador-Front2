@@ -40,25 +40,35 @@
     </div>
   </header>
 
-  <form class="nova-tarefa" id="formTarefa">
-    <div class="not-done "></div>
-    <input id="novaTarefa" type="text" placeholder="Nova tarefa">
-    <button type="submit">
-      <img src="./assets/plus.png" alt="Adicionar uma nova tarefa">
-    </button>
-  </form>
+  <div class="div-conteiner">
+
+    <div class="div-conteiner-column div-left">
+
+      <form class="nova-tarefa" id="formTarefa">
+        <div class="not-done "></div>
+        <input id="novaTarefa" type="text" placeholder="Nova tarefa">
+        <button type="submit">
+          <img src="./assets/plus.png" alt="Adicionar uma nova tarefa">
+        </button>
+      </form>
 
 
-  <ul class="tarefas-pendentes">
-    <!-- <div id="skeleton"> -->
-    <div id="tarefasPendentes">
+      <ul class="tarefas-pendentes">
+        <!-- <div id="skeleton"> -->
+        <div id="tarefasPendentes">
+        </div>
+
+      </ul>
     </div>
-  </ul>
+    <div class=".div-conteiner-column div-right">
 
-  <h2 class="titulo-terminadas">Tarefas terminadas</h2>
-  <ul class="tarefas-terminadas" id="tarefasTerminadas">
+      <h2 class="titulo-terminadas">Tarefas terminadas</h2>
+      <ul class="tarefas-terminadas" id="tarefasTerminadas">
 
-  </ul>
+      </ul>
+    </div>
+
+  </div>
   <script src="./scripts/tarefas.js"></script>
   <script src="./scripts/utils.js"></script>
   <script src="./scripts/loader.js"></script>

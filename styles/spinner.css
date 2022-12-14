@@ -1,9 +1,9 @@
 .loader {
-    border: 10px solid #f3f3f3; /* Light grey */
-    border-top: 10px solid #3498db; /* Blue */
-    border-radius: 50%;
-    width: 5px;
-    height: 5px;
+    border: 14px solid #f3f3f3; /* Light grey */
+    border-top: 14px solid #3498db; /* Blue */
+    border-radius: 100%;
+    width: 20px;
+    height: 20px;
     animation: spin 2s linear infinite;
   }
   
