@@ -16,11 +16,11 @@ Gustavo Dias = {
     botão de finalização
     comentários(documentação do codigo)
     implementação do skeleton
-    
+
 }
 
 Matheus Galvão = {
-    responsável pelo CSS
+
 }
 
 Darlan = {
