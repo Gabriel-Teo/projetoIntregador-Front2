@@ -23,7 +23,7 @@ body{
   background: url("../assets/backgroundIndex.png") repeat-x;
   height: 100vh;
   width: 7680px;
-  animation: slide 360s linear infinite;
+  animation: slide 365s linear infinite;
 }
 
 h1 {

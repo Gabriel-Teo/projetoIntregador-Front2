@@ -18,7 +18,10 @@ document.addEventListener('DOMContentLoaded', function () {
     if (!userJwt) {
         window.location.href = "index.html";
     } else {
+        renderizarSkeletons(3, ".div-conteiner-column")
+        
         capturaDadosUser()
+       
     }
 
     // Função Async que captura dados user
@@ -34,6 +37,7 @@ document.addEventListener('DOMContentLoaded', function () {
         let dadosUser = await fetch(`${baseUrl()}/users/getMe`, requestInit);
         let dadosJS = await dadosUser.json();
         renderizaDados(dadosJS);
+        
 
     }
 
@@ -70,14 +74,18 @@ async function atualizaTasks(jwt) {
         }
     }
     console.log(requestConfig)
-
     //try/catch
-    try {
+    try{
         let lista = await fetch(`${baseUrl()}/tasks`, requestConfig)
         console.log(lista.status)
+        
         if (lista.status == 200) {
             let listaResponse = await lista.json();
+            console.log(listaResponse)
+            removerSkeleton("skeleton");
             renderizaTasks(listaResponse);
+            
+        
         } else {
             throw lista
         }
@@ -89,6 +97,7 @@ async function atualizaTasks(jwt) {
 //função que "renderiza task" adiciona uma task com o formato correto no html
 function renderizaTasks(array) {
     for (let i = 0; i < array.length; i++) {
+        
         let btnDiv = document.createElement("div")
         btnDiv.classList.add("not-done")
         let li = document.createElement("li")
@@ -105,12 +114,13 @@ function renderizaTasks(array) {
 
         li.insertBefore(btnDiv, li.firstChild);
         btnDiv.onclick = stateBtn(li.firstChild, array[i].completed);
-
+        
         if (array[i].completed === false) {
             listaPendente.appendChild(li);
         } else if (array[i].completed === true) {
             listaTerminada.appendChild(li);
         }
+        
 
     }
 }
