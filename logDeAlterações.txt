@@ -5,6 +5,8 @@ Gabriel Teodoro = {
     conexão api (pagina de Cadastro/Tarefas),
     manipulação de DOM das tasks,
     documentação basica do codigo (comentarios)
+    CSS pag.Index//signup//Tarefas
+    bloqueio dos botões de login/signup
 }
 
 Gustavo Dias = {
@@ -13,6 +15,8 @@ Gustavo Dias = {
     conexão api user delete
     botão de finalização
     comentários(documentação do codigo)
+    implementação do skeleton
+    
 }
 
 Matheus Galvão = {
